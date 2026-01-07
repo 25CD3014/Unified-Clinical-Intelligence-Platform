@@ -1,0 +1,12 @@
+Site ID,query_count,Country,Region,missing_page_count,sae_count
+9,1.0,0,0,0.0,0.0
+BFA,0.0,0,0,41.0,0.0
+Site 110,25.0,CIV,EMEA,0.0,0.0
+Site 14,9.0,GAB,EMEA,0.0,0.0
+Site 15,17.0,GAB,EMEA,0.0,0.0
+Site 165,21.0,GHA,EMEA,0.0,2.0
+Site 177,17.0,KEN,EMEA,0.0,0.0
+Site 18,31.0,KEN,EMEA,0.0,0.0
+Site 2,21.0,BFA,EMEA,0.0,0.0
+Site 347,12.0,UGA,EMEA,0.0,0.0
+Site 87,27.0,CIV,EMEA,0.0,0.0

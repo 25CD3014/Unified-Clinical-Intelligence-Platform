@@ -1,0 +1,15 @@
+Site ID,query_count,Country,Region,missing_page_count,sae_count
+13,1,0,0,0,0.0
+Site 14,2,CAN,AMERICA,0,0.0
+Site 15,2,CAN,AMERICA,0,0.0
+Site 16,2,CAN,AMERICA,0,0.0
+Site 177,4,USA,AMERICA,0,0.0
+Site 18,2,USA,AMERICA,0,0.0
+Site 19,7,USA,AMERICA,0,0.0
+Site 325,2,USA,AMERICA,0,0.0
+Site 327,8,USA,AMERICA,0,0.0
+Site 466,4,FRA,EMEA,0,0.0
+Site 469,9,ISR,EMEA,0,8.0
+Site 7,2,ESP,EMEA,0,0.0
+Site 775,1,ESP,EMEA,0,0.0
+Site 776,3,CHE,EMEA,0,0.0

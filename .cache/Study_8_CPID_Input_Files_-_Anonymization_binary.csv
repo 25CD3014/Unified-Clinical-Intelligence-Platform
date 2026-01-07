@@ -1,0 +1,18 @@
+Site ID,query_count,Country,missing_page_count,sae_count,Region
+ARG,0.0,0,3.0,0.0,Global
+BGR,0.0,0,6.0,0.0,Global
+CHE,0.0,0,1.0,0.0,Global
+DEU,0.0,0,8.0,0.0,Global
+FRA,0.0,0,3.0,0.0,Global
+GBR,0.0,0,1.0,0.0,Global
+GRC,0.0,0,6.0,0.0,Global
+HUN,0.0,0,2.0,0.0,Global
+IND,0.0,0,1.0,0.0,Global
+MYS,0.0,0,4.0,0.0,Global
+SVK,0.0,0,1.0,0.0,Global
+Site 317,13.0,ZAF,0.0,13.0,Global
+Site 365,2.0,FRA,0.0,2.0,Global
+Site 372,5.0,FRA,0.0,5.0,Global
+Site 424,1.0,ROU,0.0,1.0,Global
+USA,0.0,0,2.0,0.0,Global
+ZAF,0.0,0,1.0,0.0,Global

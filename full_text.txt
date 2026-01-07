@@ -1,0 +1,292 @@
+1. 
+
+Integrated insight-driven data-flow model 
+
+Problem Statement: - 
+
+Clinical trials generate vast amounts of heterogeneous data from multiple sources, including 
+electronic data capture (EDC) systems, laboratory reports, site operational metrics, and monitoring 
+logs. However, these data streams often remain siloed, leading to delayed identification of operational 
+bottlenecks, inconsistent data quality, and limited visibility for scientific decision-making. Current 
+processes rely heavily on manual review and fragmented communication between Clinical Trial 
+Teams (CTT), Clinical Research Associates (CRAs), and investigational sites, which increases cycle 
+times and operational risk. 
+
+ Challenge Statement: - 
+
+There is a critical need for an integrated solution that can ingest and harmonize clinical and 
+operational data in near real-time, apply advanced analytics to generate actionable insights, and 
+proactively detect data quality issues and operational inefficiencies. Furthermore, the solution should 
+leverage Generative and Agentic AI capabilities to enable intelligent collaboration, automate routine 
+tasks, and provide context-aware recommendations to stakeholders, thereby accelerating trial 
+execution and improving scientific outcomes.” 
+
+Please refer to data sets attached. 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+2.  Problem Statement: Improving Follow-Up (FU) Data Collection for Patient Safety 
+
+Section 
+
+Key Points 
+
+Title 
+
+Improving Follow-Up (FU) Data Collection for Patient Safety  
+
+In the pharmaceutical industry, Pharmacovigilance plays an important part in assessing ongoing safety 
+profile of the product. When a patient experiences an adverse event related to a company’s 
+medication, companies must collect adverse event information. Most often the initial report lacks key 
+information, and the company initiates a follow up with reporter for seeking any missing information for 
+a comprehensive assessment and ensure patient safety. However, many follow-ups attempt with 
+patients or their healthcare providers fail because complex and frequent requests overwhelm busy 
+professionals and discourage responses, and growing concerns about scams or fraud make reporters 
+more cautious and less likely to engage. 
+
+The 
+Problem 
+
+Reasons for Follow-Up Data Collection:  
+
+- International regulations require companies to collect all necessary information and follow up when 
+initial reports are incomplete or unclear.  
+
+- Organizations are required to submit aggregate reports/RMPs with comprehensive information. 
+Regulators use these reports to determine whether medicine should remain on the market or require 
+additional warnings. 
+
+- Companies must comply with worldwide reporting rules. Failure to obtain complete information can 
+create compliance issues and erode trust with regulators. 
+
+What We 
+Need 
+
+Ideas for 
+Innovati
+on 
+
+Why 
+This 
+Matters 
+(Strategi
+c 
+Impact) 
+
+The goal is to develop a practical, globally standardized solution that uses new technology and process 
+improvements to streamline follow-up data collection.  
+The solution should:  
+- Be easy for patients and doctors to use, regardless of location. 
+- Tailor communication for different regions and cultures while ensuring security and privacy. 
+- Use digital tools to automate routine steps and help focus on higher-risk cases. 
+- Ensure that all collected data is accurate. 
+- Create secure, user-friendly digital platforms for communication and data entry that can be 
+customized per region. 
+
+- Implement automation and artificial intelligence to prioritize follow-ups and check for missing or 
+inconsistent information automatically. 
+
+- Use real-time data validation and multilingual support to reduce manual errors and overcome 
+geographic or language barriers. 
+
+- Build cross-country teams to share lessons learned and develop best practices for handling follow-
+ups effectively. 
+
+- Offer support to healthcare professionals and patients to encourage higher participation in follow-ups. 
+
+- Ensures patient safety through faster risk identification and response. 
+
+- Maintains compliance with global regulations and builds credibility with authorities and the public. 
+
+- Increases the quality and reliability of safety data, supporting better informed decisions that improve 
+patient outcomes. 
+
+- Helps pharmaceutical companies operate more efficiently, avoid costly delays, and maintain a good 
+reputation. 
+
+ 
+ 
+3.  Problem Statement: Mass Balance Calculation Methods Evaluation in Analytical Forced 
+
+Degradation Studies 
+
+Background: Mass balance (MB) calculations play a critical role in forced degradation studies, as 
+they help verify whether all components of a drug substance, both the active pharmaceutical 
+ingredient (API) and its degradants, are properly accounted for during stress testing. This assessment 
+ensures the analytical method is stability-indicating and provides insight into degradation pathways. 
+Regulatory expectations emphasize that MB should be close to 100%, indicating minimal loss due to 
+factors such as volatility, adsorption, or undetected species. When MB values are significantly lower, it 
+signals potential gaps in method sensitivity or incomplete detection of degradants, prompting further 
+investigation. Various calculation approaches, including simple, absolute, and relative mass balance 
+methods, are used to evaluate completeness and detectability, each with its own strengths and 
+limitations depending on the level of degradants and analytical variability. 
+
+What is Mass Balance? 
+
+Mass Balance is a way to check if all components of a drug substance (API and its degradants) are 
+accounted for during forced degradation studies. It helps confirm: 
+
+•  Completeness of analytical methods 
+
+•  Understanding of degradation pathways 
+
+Regulatory Expectation: 
+
+Regulators expect that forced degradation studies demonstrate: 
+
+•  A scientifically sound approach to calculate MB 
+
+•  Reasonable recovery of API and degradation products (usually close to 100%) 
+
+Identification of gaps if MB is significantly low 
+
+Common MB Calculation Methods 
+
+Hypothetical situation:  
+
+• 
+
+Initial sample: API = 98%, Degradants = 0.5% 
+
+•  Stressed sample: API = 82.5%, Degradants = 4.9% 
+
+1.  Simple Mass Balance (SMB) 
+
+Formula: MB=API in stressed sample + degradants in stressed sample 
+
+API = 82.5%, Degradants = 4.9%; MB = 87.4% 
+
+Limitation: Does not consider initial API content; can mislead if initial assay ≠ 100%. 
+
+2.  Absolute Mass Balance (AMB) 
+
+Formula: 
+AMB= (API stressed + Degradants stressed) / (API initial + Degradants initial) ×100  
+Initial = 98.5%, Stressed = 87.4%; AMB = 88.7% 
+Limitation: Acceptable thresholds can mislead when degradation is minimal or undetected. 
+
+ 
+ 
+ 
+ 
+ 
+3.  Absolute Mass Balance Deficiency (AMBD) 
+
+Formula: AMBD=100−AMB 
+AMBD = 100 - 88.7 = 11.3% 
+Use: Indicates how much is missing. 
+
+4.  Relative Mass Balance (RMB) 
+
+Formula: RMB= (Increase in Degradants / Loss of API) * 100  
+Increase in Degradants = 4.4%, Loss of API = 15.5%; RMB = 28.4% 
+Insight: Shows detectability of degradation products. 
+
+5.  Relative Mass Balance Deficiency (RMBD) 
+
+Formula: RMBD=100−RMB 
+
+RMBD = 100 – 28.4 = 71.6% 
+Use: Helpful when degradation is significant. 
+
+Which Method to Choose? 
+
+Regulatory Perspective: 
+No single method fits all cases. Choice depends on: 
+
+•  Drug substance properties 
+
+•  Level of degradation 
+
+•  Analytical method sensitivity 
+
+•  Pathway complexity 
+
+Challenge Tracks: 
+
+    Track 1: Literature-Based Formula Optimization 
+
+•  Goal: Critically evaluate existing MB formulas using scientific literature and regulatory 
+
+guidelines. 
+
+•  Tasks: 
+
+o  Review and compare. Simple Mass Balance (SMB); Absolute Mass Balance (AMB); 
+Absolute Mass Balance Deficiency (AMBD); Relative Mass Balance (RMB); Relative 
+Mass Balance Deficiency (RMBD) 
+
+o 
+
+Identify theoretical gaps or limitations 
+
+o  Propose a new or improved MB formula with thresholds highlighting the need for 
+
+mass balance investigations 
+
+•  Outcome: A scientifically justified formula or selection framework for MB calculations. 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+      Track 2: Experimental Validation of MB Methods 
+
+•  Goal: Conduct a forced degradation study to empirically test MB methods. 
+
+•  Tasks: 
+
+o  Select a model drug and develop a stability-indicating method 
+
+o  Apply stress conditions and collect degradation data 
+
+o  Calculate MB using all five methods and analyze the performance 
+
+•  Outcome: Data-driven recommendation of the most reliable MB formula and thresholds. 
+
+Expected Deliverables: 
+
+•  Comparative analysis report 
+
+•  Recommendation matrix 
+
+•  Draft white paper 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
