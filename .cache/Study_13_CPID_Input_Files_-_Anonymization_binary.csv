@@ -1,0 +1,23 @@
+Site ID,query_count,Country,Region,missing_page_count,sae_count
+13,1.0,0,0,0.0,0.0
+AUS,0.0,0,0,21.0,0.0
+CAN,0.0,0,0,12.0,0.0
+DEU,0.0,0,0,2.0,0.0
+ISR,0.0,0,0,7.0,0.0
+JPN,0.0,0,0,5.0,0.0
+KOR,0.0,0,0,4.0,0.0
+SGP,0.0,0,0,13.0,0.0
+Site 109,2.0,USA,AMERICA,0.0,0.0
+Site 110,1.0,AUS,ASIA,0.0,0.0
+Site 125,1.0,KOR,ASIA,0.0,0.0
+Site 130,5.0,SGP,ASIA,0.0,1.0
+Site 2,2.0,CAN,AMERICA,0.0,0.0
+Site 353,1.0,TWN,ASIA,0.0,0.0
+Site 417,3.0,JPN,ASIA,0.0,0.0
+Site 468,1.0,USA,AMERICA,0.0,0.0
+Site 588,1.0,ISR,EMEA,0.0,0.0
+Site 589,2.0,ISR,EMEA,0.0,2.0
+Site 597,1.0,USA,AMERICA,0.0,0.0
+Site 598,1.0,DEU,EMEA,0.0,0.0
+Site 87,1.0,AUS,ASIA,0.0,0.0
+USA,0.0,0,0,8.0,0.0

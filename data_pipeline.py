@@ -77,16 +77,18 @@ def optimized_excel_read(file_path, patterns, study_name, metric_name):
     except Exception as e:
         # Log to activity log instead of just printing
         log_msg = f"Error reading {metric_name} in {study_name}: {e}\n"
-        with open(r"d:\NEST 2.0\activity_log.txt", "a") as f:
+        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+        with open(os.path.join(BASE_DIR, "activity_log.txt"), "a") as f:
             f.write(log_msg)
     return pd.DataFrame()
 
 def load_and_preprocess_data(study_folder="STUDY 21_CPID_Input Files - Anonymization"):
-    base_root = r"d:\NEST 2.0\QC Anonymized Study Files"
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    base_root = os.path.join(BASE_DIR, "QC Anonymized Study Files")
     base_path = os.path.join(base_root, study_folder)
     
     # Cache path
-    cache_dir = r"d:\NEST 2.0\.cache"
+    cache_dir = os.path.join(BASE_DIR, ".cache")
     if not os.path.exists(cache_dir): os.makedirs(cache_dir)
     cache_file = os.path.join(cache_dir, f"{study_folder.replace(' ', '_')}_binary.csv")
     
@@ -128,7 +130,7 @@ def load_and_preprocess_data(study_folder="STUDY 21_CPID_Input Files - Anonymiza
         edc_metrics_file = files[0]
 
     log_msg = f"Parallel Processing Study {study_folder} (Calamine Engine)...\n"
-    with open(r"d:\NEST 2.0\activity_log.txt", "a") as f:
+    with open(os.path.join(BASE_DIR, "activity_log.txt"), "a") as f:
         f.write(log_msg)
     
     # Run parallel loads
@@ -170,6 +172,7 @@ def load_and_preprocess_data(study_folder="STUDY 21_CPID_Input Files - Anonymiza
     return final_df
 
 if __name__ == "__main__":
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     df = load_and_preprocess_data()
-    df.to_csv(r"d:\NEST 2.0\processed_site_metrics.csv", index=False)
+    df.to_csv(os.path.join(BASE_DIR, "processed_site_metrics.csv"), index=False)
     print(f"Processed data saved. Shape: {df.shape}")

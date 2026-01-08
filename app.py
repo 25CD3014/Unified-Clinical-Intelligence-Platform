@@ -174,7 +174,9 @@ elif Page == "Safety Search":
     # --- Mode Selector ---
     discovery_mode = st.radio("Intelligence Mode", ["Keyword Signal Tracking", "Global Pattern Discovery (Agentic)"], horizontal=True)
 
-    base_dir = r"d:\NEST 2.0\QC Anonymized Study Files"
+    # Dynamic Path Handling
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    base_dir = os.path.join(BASE_DIR, "QC Anonymized Study Files")
     
     @st.cache_resource
     def get_all_safety_files(root_dir):
@@ -277,7 +279,7 @@ elif Page == "Safety Search":
 
 # Sidebar Configuration
 st.sidebar.markdown("---")
-study_options = [d for d in os.listdir(r"d:\NEST 2.0\QC Anonymized Study Files") if os.path.isdir(os.path.join(r"d:\NEST 2.0\QC Anonymized Study Files", d))]
+study_options = [d for d in os.listdir(base_dir) if os.path.isdir(os.path.join(base_dir, d))]
 study_selection = st.sidebar.selectbox("Select Study for Dashboard", study_options)
 
 # Data Loading and Re-training Logic
@@ -297,14 +299,14 @@ def get_study_data(study):
             status_msg.info(f"Synthesis Success. Re-calibrating Site Risk Boundaries...")
             
             # Save locally for train_model to pick up
-            df_processed.to_csv(r"d:\NEST 2.0\processed_site_metrics.csv", index=False)
+            df_processed.to_csv(os.path.join(BASE_DIR, "processed_site_metrics.csv"), index=False)
             train_custom_model()
             
             # Clear status on success
             status_msg.empty()
             
             # Load the scored results
-            return pd.read_csv(r"d:\NEST 2.0\scored_site_metrics.csv")
+            return pd.read_csv(os.path.join(BASE_DIR, "scored_site_metrics.csv"))
         except Exception as e:
             status_msg.error(f"Critical Error in Data Pipeline: {e}")
             return None
@@ -433,6 +435,6 @@ elif df is None:
 # Activity Log Display
 st.sidebar.markdown("---")
 st.sidebar.write("### Backend Activity Log")
-if os.path.exists(r"d:\NEST 2.0\activity_log.txt"):
-    with open(r"d:\NEST 2.0\activity_log.txt", "r") as f:
+if os.path.exists(os.path.join(BASE_DIR, "activity_log.txt")):
+    with open(os.path.join(BASE_DIR, "activity_log.txt"), "r") as f:
         st.sidebar.text(f.read()[-500:]) # Show last 500 chars
