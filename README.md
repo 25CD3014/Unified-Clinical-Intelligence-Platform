@@ -48,8 +48,7 @@ Safety signals often hide in unstructured text. NEST 2.0 uses **Agentic AI** to 
 
 1.  **Clone the Repository**
     ```bash
-    git clone https://github.com/your-org/nest-2.0.git
-    cd nest-2.0
+    git clone https://github.com/25CD3014/Unified-Clinical-Intelligence-Platform.git
     ```
 
 2.  **Install Dependencies**
@@ -58,12 +57,6 @@ Safety signals often hide in unstructured text. NEST 2.0 uses **Agentic AI** to 
     pip install -r requirements.txt
     ```
 
-3.  **Run the Application**
-    Launch the high-performance local server:
-    ```bash
-    streamlit run app.py
-    ```
-    The app will open automatically in your default browser at `http://localhost:8501`.
 
 ---
 
@@ -77,7 +70,7 @@ Safety signals often hide in unstructured text. NEST 2.0 uses **Agentic AI** to 
 
 ---
 
-## 👥 Meet the Team
+## 👥 Meet the Team 
 
 We are a diverse team of innovators bridging the gap between Data Science and Clinical Operations.
 
