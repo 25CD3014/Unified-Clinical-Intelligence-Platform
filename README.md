@@ -81,9 +81,6 @@ We are a diverse team of innovators bridging the gap between Data Science and Cl
 ### Development & Engineering
 -   **Ayush Pratap Singh** - *Lead Frontend Engineer*
     -   Designed the premium Streamlit UI and interactive visualizations.
--   **[Name Placeholder]** - *Backend Data Engineer*
-    -   Built the robust Calamine-based pipeline for high-speed data processing.
-
 ### Scientific & Clinical Advisors
 -   **Aarsh Patel** - *Clinical Operations Subject Matter Expert*
     -   Provided domain expertise on Risk-Based Monitoring (RBM) and regulatory requirements.
