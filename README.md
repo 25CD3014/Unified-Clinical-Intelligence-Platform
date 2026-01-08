@@ -82,20 +82,18 @@ Safety signals often hide in unstructured text. NEST 2.0 uses **Agentic AI** to 
 We are a diverse team of innovators bridging the gap between Data Science and Clinical Operations.
 
 ### Core Leadership
--   **[Your Name]** - *Project Lead & System Architect*
+-   **Kumkum Gupta** - *Project Lead & System Architect*
     -   Responsible for the overall vision, architecture, and core ML algorithms.
 
 ### Development & Engineering
--   **[Name Placeholder]** - *Lead Frontend Engineer*
+-   **Ayush Pratap Singh** - *Lead Frontend Engineer*
     -   Designed the premium Streamlit UI and interactive visualizations.
 -   **[Name Placeholder]** - *Backend Data Engineer*
     -   Built the robust Calamine-based pipeline for high-speed data processing.
 
 ### Scientific & Clinical Advisors
--   **[Name Placeholder]** - *Clinical Operations Subject Matter Expert*
+-   **Aarsh Patel** - *Clinical Operations Subject Matter Expert*
     -   Provided domain expertise on Risk-Based Monitoring (RBM) and regulatory requirements.
--   **[Name Placeholder]** - *Safety Physician / Pharmacovigilance*
-    -   Guided the development of the Safety Signal Intelligence module.
 
 ---
-*© 2024 NEST 2.0 Clinical Intelligence. All Rights Reserved.*
+*© 2026 NEST 2.0 Clinical Intelligence. All Rights Reserved.*
