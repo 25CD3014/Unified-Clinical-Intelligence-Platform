@@ -51,16 +51,21 @@ def optimized_excel_read(file_path, patterns, study_name, metric_name):
             s_col = find_column(head, ['Site ID', 'Site number', 'Site', 'SITE'])
             c_col = find_column(head, ['Country', 'COUNTRY'])
             r_col = find_column(head, ['Region', 'REGION'])
-            if s_col: cols.append(s_col)
-            if c_col: cols.append(c_col)
-            if r_col: cols.append(r_col)
             
-            if s_col:
+            # Robust Selection: Only use columns that exist
+            rename_map = {}
+            if s_col: 
+                cols.append(s_col)
+                rename_map[s_col] = 'Site ID'
+            if c_col: 
+                cols.append(c_col)
+                rename_map[c_col] = 'Country'
+            if r_col: 
+                cols.append(r_col)
+                rename_map[r_col] = 'Region'
+            
+            if cols:
                 df = pd.read_excel(file_path, usecols=cols, engine='calamine')
-                # Standardize
-                rename_map = {s_col: 'Site ID'}
-                if c_col: rename_map[c_col] = 'Country'
-                if r_col: rename_map[r_col] = 'Region'
                 return df.rename(columns=rename_map)
                 
         else: # Missing or SAE
@@ -70,7 +75,10 @@ def optimized_excel_read(file_path, patterns, study_name, metric_name):
                 return df.rename(columns={s_col: 'Site ID'})
                 
     except Exception as e:
-        print(f"Error reading {metric_name} in {study_name}: {e}")
+        # Log to activity log instead of just printing
+        log_msg = f"Error reading {metric_name} in {study_name}: {e}\n"
+        with open(r"d:\NEST 2.0\activity_log.txt", "a") as f:
+            f.write(log_msg)
     return pd.DataFrame()
 
 def load_and_preprocess_data(study_folder="STUDY 21_CPID_Input Files - Anonymization"):
@@ -96,20 +104,32 @@ def load_and_preprocess_data(study_folder="STUDY 21_CPID_Input Files - Anonymiza
             print(f"Loading Study {study_folder} from High-Speed Binary Cache...")
             return pd.read_csv(cache_file)
 
-    # File identification
+    # File identification (Problem 1: Robust Selection)
     edc_metrics_file = None
     missing_pages_file = None
     sae_file = None
 
     for f in files:
-        f_low = f.lower()
-        if "edc metrics" in f_low: edc_metrics_file = f
-        elif "missing_pages" in f_low: missing_pages_file = f
-        elif "sae" in f_low and "dashboard" in f_low: sae_file = f
+        f_low = f.lower().replace("_", " ") # Normalize underscores to spaces
+        if "edc metrics" in f_low or "edc" in f_low: 
+            # Prioritize "metrics" if both are present
+            if "edc" in f_low and "metrics" in f_low: 
+                edc_metrics_file = f
+                continue # Strong match
+            if not edc_metrics_file: edc_metrics_file = f
+            
+        elif "missing" in f_low and "pages" in f_low: 
+            missing_pages_file = f
+        elif "sae" in f_low: 
+            sae_file = f
 
-    if not edc_metrics_file: edc_metrics_file = files[0]
+    # Fallback for EDC if not explicitly named
+    if not edc_metrics_file and files: 
+        edc_metrics_file = files[0]
 
-    print(f"Parallel Processing Study {study_folder} (Calamine Engine)...")
+    log_msg = f"Parallel Processing Study {study_folder} (Calamine Engine)...\n"
+    with open(r"d:\NEST 2.0\activity_log.txt", "a") as f:
+        f.write(log_msg)
     
     # Run parallel loads
     with ThreadPoolExecutor(max_workers=3) as executor:
@@ -123,7 +143,9 @@ def load_and_preprocess_data(study_folder="STUDY 21_CPID_Input Files - Anonymiza
 
     # Aggregate EDC
     if not df_edc.empty:
-        site_info = df_edc[['Site ID', 'Country', 'Region']].drop_duplicates().dropna(subset=['Site ID'])
+        # Problem 1: Agentic Schema Harmonization
+        available_cols = [c for c in ['Site ID', 'Country', 'Region'] if c in df_edc.columns]
+        site_info = df_edc[available_cols].drop_duplicates().dropna(subset=['Site ID'])
         site_queries = df_edc.groupby('Site ID').size().reset_index(name='query_count')
         site_data = site_queries.merge(site_info, on='Site ID', how='left')
     else:
@@ -138,10 +160,12 @@ def load_and_preprocess_data(study_folder="STUDY 21_CPID_Input Files - Anonymiza
     # Merge
     final_df = site_data.merge(site_missing, on='Site ID', how='outer').merge(site_sae, on='Site ID', how='outer')
     
+    # Defaults for missing metadata
     if 'Country' not in final_df.columns: final_df['Country'] = 'Unknown'
     if 'Region' not in final_df.columns: final_df['Region'] = 'Global'
     final_df.fillna(0, inplace=True)
     
+    # Cache it
     final_df.to_csv(cache_file, index=False)
     return final_df
 
