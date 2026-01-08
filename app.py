@@ -8,6 +8,10 @@ from data_pipeline import load_and_preprocess_data
 from train_model import train_custom_model
 import validation_proofs
 
+# Dynamic Path Handling - Global Scope
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+base_dir = os.path.join(BASE_DIR, "QC Anonymized Study Files")
+
 # Page Config
 st.set_page_config(page_title="NEST 2.0 Clinical Intelligence", layout="wide")
 
@@ -174,9 +178,9 @@ elif Page == "Safety Search":
     # --- Mode Selector ---
     discovery_mode = st.radio("Intelligence Mode", ["Keyword Signal Tracking", "Global Pattern Discovery (Agentic)"], horizontal=True)
 
-    # Dynamic Path Handling
-    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    base_dir = os.path.join(BASE_DIR, "QC Anonymized Study Files")
+    # Dynamic Path Handling (Removed local definition, using global)
+    # BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    # base_dir = os.path.join(BASE_DIR, "QC Anonymized Study Files")
     
     @st.cache_resource
     def get_all_safety_files(root_dir):
@@ -279,7 +283,11 @@ elif Page == "Safety Search":
 
 # Sidebar Configuration
 st.sidebar.markdown("---")
-study_options = [d for d in os.listdir(base_dir) if os.path.isdir(os.path.join(base_dir, d))]
+if os.path.exists(base_dir):
+    study_options = [d for d in os.listdir(base_dir) if os.path.isdir(os.path.join(base_dir, d))]
+else:
+    study_options = []
+    st.sidebar.warning(f"Note: Data directory not found at {base_dir}")
 study_selection = st.sidebar.selectbox("Select Study for Dashboard", study_options)
 
 # Data Loading and Re-training Logic
