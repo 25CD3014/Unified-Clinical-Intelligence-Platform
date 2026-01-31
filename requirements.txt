@@ -6,3 +6,5 @@ scikit-learn
 python-calamine
 numpy
 openpyxl
+streamlit-aggrid
+fpdf
