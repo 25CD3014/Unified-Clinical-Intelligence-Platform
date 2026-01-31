@@ -262,7 +262,7 @@ elif Page == "Safety Search":
             for k, v in semantic_map.items():
                 if k in query.lower(): expanded.extend(v)
             
-            st.caption(f"🤖 Gen AI Semantic Expansion: Also searching for {', '.join(expanded)}")
+            st.caption(f"Gen AI Semantic Expansion: Also searching for {', '.join(expanded)}")
 
             results = []
             with st.spinner("Scanning for safety patterns (Deep Scan)..."):
@@ -333,7 +333,7 @@ elif Page == "Safety Search":
 
 # Sidebar Configuration
 st.sidebar.markdown("---")
-st.sidebar.subheader("📤 Upload New Study Data")
+st.sidebar.subheader("Upload New Study Data")
 uploaded_files = st.sidebar.file_uploader("Upload Study ZIP or Excel files", type=["zip", "xlsx"], accept_multiple_files=True)
 
 if uploaded_files:
@@ -540,7 +540,7 @@ if df is not None and Page in lang["nav"][0]:
             try:
                 pdf_data = create_pdf_report(selected_site, narrative, site_data)
                 st.download_button(
-                    label="📥 Download Clinical Study Report (PDF)",
+                    label="Download Clinical Study Report (PDF)",
                     data=pdf_data,
                     file_name=f"NEST_Report_Site_{selected_site}.pdf",
                     mime="application/pdf"
