@@ -7,6 +7,56 @@ import joblib
 from data_pipeline import load_and_preprocess_data
 from train_model import train_custom_model
 import validation_proofs
+from st_aggrid import AgGrid, GridOptionsBuilder, GridUpdateMode
+from fpdf import FPDF
+import base64
+
+# PDF Report Generator Class
+class NESTReport(FPDF):
+    def header(self):
+        self.set_font('Arial', 'B', 15)
+        self.cell(0, 10, 'NEST 2.0: Clinical Study Report Narrative', 0, 1, 'C')
+        self.ln(10)
+
+    def footer(self):
+        self.set_y(-15)
+        self.set_font('Arial', 'I', 8)
+        self.cell(0, 10, f'Page {self.page_no()}', 0, 0, 'C')
+
+def create_pdf_report(site_id, narrative_text, site_data):
+    pdf = NESTReport()
+    pdf.add_page()
+    pdf.set_font("Arial", size=12)
+    
+    # Title
+    pdf.set_font("Arial", 'B', 14)
+    pdf.cell(200, 10, txt=f"Site Investigation Report: {site_id}", ln=True)
+    pdf.ln(5)
+    
+    # Narrative Content
+    pdf.set_font("Arial", size=11)
+    # Cleaning markdown for PDF
+    clean_narrative = narrative_text.replace("**", "").replace("-", "*")
+    pdf.multi_cell(0, 10, txt=clean_narrative)
+    
+    pdf.ln(10)
+    pdf.set_font("Arial", 'B', 12)
+    pdf.cell(200, 10, txt="Site Metrics Summary", ln=True)
+    pdf.set_font("Arial", size=10)
+    
+    metrics = [
+        f"Country: {site_data['Country']}",
+        f"Region: {site_data['Region']}",
+        f"Query Count: {int(site_data['query_count'])}",
+        f"Missing Pages: {int(site_data['missing_page_count'])}",
+        f"SAE Count: {int(site_data['sae_count'])}",
+        f"Anomaly Score: {round(site_data['anomaly_score'], 4)}"
+    ]
+    
+    for m in metrics:
+        pdf.cell(200, 8, txt=m, ln=True)
+        
+    return pdf.output(dest='S').encode('latin-1')
 
 # Dynamic Path Handling - Global Scope
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -283,6 +333,37 @@ elif Page == "Safety Search":
 
 # Sidebar Configuration
 st.sidebar.markdown("---")
+st.sidebar.subheader("📤 Upload New Study Data")
+uploaded_files = st.sidebar.file_uploader("Upload Study ZIP or Excel files", type=["zip", "xlsx"], accept_multiple_files=True)
+
+if uploaded_files:
+    import zipfile
+    import shutil
+    
+    for uploaded_file in uploaded_files:
+        if uploaded_file.name.endswith(".zip"):
+            # Handle ZIP uploads
+            with zipfile.ZipFile(uploaded_file, 'r') as zip_ref:
+                # Extract to a folder named after the ZIP
+                target_name = uploaded_file.name.replace(".zip", "")
+                target_path = os.path.join(base_dir, target_name)
+                os.makedirs(target_path, exist_ok=True)
+                zip_ref.extractall(target_path)
+                st.sidebar.success(f"Extracted: {uploaded_file.name}")
+        else:
+            # Handle individual Excel files
+            # Default to a "Manual_Uploads" folder if no ZIP context
+            target_path = os.path.join(base_dir, "Manual_Uploads")
+            os.makedirs(target_path, exist_ok=True)
+            with open(os.path.join(target_path, uploaded_file.name), "wb") as f:
+                f.write(uploaded_file.getbuffer())
+            st.sidebar.success(f"Saved: {uploaded_file.name}")
+    
+    st.sidebar.info("Refresh to see new studies in the list.")
+    if st.sidebar.button("Refresh Study List"):
+        st.rerun()
+
+st.sidebar.markdown("---")
 if os.path.exists(base_dir):
     study_options = [d for d in os.listdir(base_dir) if os.path.isdir(os.path.join(base_dir, d))]
 else:
@@ -351,25 +432,57 @@ if df is not None and Page in lang["nav"][0]:
         fig.update_layout(margin=dict(l=0, r=0, t=30, b=0), height=400)
         st.plotly_chart(fig, use_container_width=True)
 
-    # PAGE 1 - NEW SECTION: Global Risk Heatmap
-    st.write("### Predictive Risk Heatmap (Country Level)")
+    # PAGE 1 - NEW SECTION: Global Risk Heatmap (Choropleth Map)
+    st.write("### Predictive Risk Heatmap (Geospatial Analysis)")
     country_risk = df.groupby('Country')['anomaly_score'].mean().reset_index()
-    fig_map = px.bar(country_risk.sort_values(by='anomaly_score'), x='Country', y='anomaly_score',
-                     color='anomaly_score', color_continuous_scale="Reds_r")
-    fig_map.update_layout(title="Operational Risk Index by Country (Lower = Higher Risk)")
+    
+    # Using choropleth for professional mapping
+    fig_map = px.choropleth(country_risk, 
+                            locations="Country", 
+                            locationmode='country names',
+                            color="anomaly_score", 
+                            hover_name="Country",
+                            color_continuous_scale="Reds_r",
+                            labels={'anomaly_score':'Risk Index'})
+    
+    fig_map.update_layout(
+        geo=dict(showframe=False, showcoastlines=True, projection_type='equirectangular'),
+        margin=dict(l=0, r=0, t=30, b=0),
+        height=500
+    )
     st.plotly_chart(fig_map, use_container_width=True)
 
     # Anomaly Breakdown with Narrative Generation
-    st.write("### Custom ML Anomaly Analysis and Narrative Generator")
+    st.write("### Custom ML Anomaly Analysis (Interactive Data Grid)")
     anomalies = df[df['is_anomaly'] == -1].sort_values(by='anomaly_score')
     
     if not anomalies.empty:
         st.warning(f"Detection System identified {len(anomalies)} sites with irregular operational patterns.")
         
-        # Site Selector for Narrative
-        selected_site = st.selectbox("Select a site to generate a draft Clinical Study Report (CSR) Narrative:", anomalies['Site ID'].unique())
+        # AgGrid Implementation
+        gb = GridOptionsBuilder.from_dataframe(anomalies[['Site ID', 'Country', 'query_count', 'missing_page_count', 'sae_count', 'anomaly_score']])
+        gb.configure_pagination(paginationAutoPageSize=True)
+        gb.configure_side_bar()
+        gb.configure_selection('single', use_checkbox=True)
+        gridOptions = gb.build()
         
+        grid_response = AgGrid(
+            anomalies,
+            gridOptions=gridOptions,
+            update_mode=GridUpdateMode.SELECTION_CHANGED,
+            theme='balham', # Professional theme
+            height=300,
+            width='100%',
+        )
+        
+        selected = grid_response['selected_rows']
+        selected_site = None
+        if selected is not None and not selected.empty:
+            selected_site = selected.iloc[0]['Site ID']
+        
+        # Narrative Section
         if selected_site:
+            st.write(f"#### Generated Narrative for Site {selected_site}")
             site_data = anomalies[anomalies['Site ID'] == selected_site].iloc[0]
             
             # Local Logic-Based Narrative Engine (Localized)
@@ -408,22 +521,33 @@ if df is not None and Page in lang["nav"][0]:
             n = narr_strings[Language]
             
             narrative = f"""
-            **{n['header']}**
-            
-            **{n['exec']}**
-            
-            **{n['findings']}**:
-            - {n['query']}
-            - {n['integrity']}
-            - {n['safety']}
-            
-            **{n['rca']}**
-            
-            **{n['rec']}**
+{n['header']}
+
+{n['exec']}
+
+{n['findings']}:
+- {n['query']}
+- {n['integrity']}
+- {n['safety']}
+
+{n['rca']}
+
+{n['rec']}
             """
             st.info(narrative)
             
-        st.table(anomalies[['Site ID', 'Country', 'query_count', 'missing_page_count', 'sae_count', 'anomaly_score']])
+            # PDF Export Button
+            try:
+                pdf_data = create_pdf_report(selected_site, narrative, site_data)
+                st.download_button(
+                    label="📥 Download Clinical Study Report (PDF)",
+                    data=pdf_data,
+                    file_name=f"NEST_Report_Site_{selected_site}.pdf",
+                    mime="application/pdf"
+                )
+            except Exception as e:
+                st.error(f"Error generating PDF: {e}")
+            
     else:
         st.success("No critical operational anomalies detected with current thresholds.")
 
